@@ -83,21 +83,22 @@ button:active{background:#2255aa;}
 const targetUrl = "https://dxiangwiki.github.io/keymouseHelper/tar.html";
 // 解析当前目录下 tar.html 的真实绝对地址
 const resolveUrl = new URL("tar.html", window.location.href).href;
-const pathValid = resolveUrl === targetUrl;
+const pathIsGithub = resolveUrl === targetUrl;
+const isFileProtocol = window.location.protocol === "file:";
 
-// console.log("解析出来的地址：", resolveUrl);
-// console.log("目标地址：", targetUrl);
-// console.log("校验是否通过：", pathValid);
+// pathValid：true=允许发送指令
+const pathValid = !pathIsGithub && !isFileProtocol;
 </script>
 </head>
 <body>
 <h2>🎮 电脑遥控器</h2>
 <script>
-// 输出状态提示
-if(!pathValid){
-  // document.write(`<div class="tip tip-ok">✅ 路径校验通过，可以操控电脑</div>`);
+if(isFileProtocol){
+  document.write(`<div class="tip tip-err">❌ 禁止：直接本地文件打开，请用 node server.js 启动服务访问</div>`);
+}else if(pathIsGithub){
+  document.write(`<div class="tip tip-err">❌ 禁止：Github Pages 环境，不能控制</div>`);
 }else{
-  document.write(`<div class="tip tip-err">❌ 路径校验失败，请勿在github pages上直接运行</div>`);
+  document.write(`<div class="tip tip-ok">✅ 校验通过，可以正常控制</div>`);
 }
 </script>
 
@@ -248,7 +249,7 @@ document.addEventListener('contextmenu', e=>e.preventDefault());
 async function sendKey(key, modifier=null) {
   // 校验拦截
   if(!pathValid){
-    alert("❌ 环境校验失败！请确保在本地适用server.js运行，勿适用html直接运行或github pages直接访问");
+    alert("❌ 环境校验失败！请确保在本地使用server.js运行，勿直接打开html或者在github pages访问");
     return;
   }
   const body = { key };

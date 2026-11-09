@@ -3,7 +3,10 @@ const robot = require('robotjs');
 const app = express();
 const port = 4000;
 
-app.use(express.static('public'));
+// ✅ 修复：去掉引号，加上index默认页
+app.use(express.static(__dirname, {
+  index: ["index.html"]
+}));
 app.use(express.json());
 
 // 按键接口，支持单个修饰键 或者 修饰键数组

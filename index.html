@@ -95,7 +95,7 @@ const pathValid = resolveUrl === targetUrl;
 <script>
 // 输出状态提示
 if(!pathValid){
-  document.write(`<div class="tip tip-ok">✅ 路径校验通过，可以操控电脑</div>`);
+  // document.write(`<div class="tip tip-ok">✅ 路径校验通过，可以操控电脑</div>`);
 }else{
   document.write(`<div class="tip tip-err">❌ 路径校验失败，请勿在github pages上直接运行</div>`);
 }
@@ -248,7 +248,7 @@ document.addEventListener('contextmenu', e=>e.preventDefault());
 async function sendKey(key, modifier=null) {
   // 校验拦截
   if(!pathValid){
-    alert("❌ 校验不通过，禁止发送指令");
+    alert("❌ 环境校验失败！请确保在本地适用server.js运行，勿适用html直接运行或github pages直接访问");
     return;
   }
   const body = { key };
